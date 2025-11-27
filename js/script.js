@@ -11,12 +11,12 @@ const countriesInfo = document.getElementById("countries-info");
 
 const getCountries = async () => {
     try {
-        const response = await fetch("https://restcountries.com/v3.1/all?fields=name,flags,car,population,capital")
+        const response = await fetch("https://restcountries.com/v3.1/all?fields=name,flags,car,population,capital");
         if (!response.ok) {
             throw new Error("Error al obtener países:", response.status);
         }
         const data = await response.json();
-        const paises = data.sort((a,b) => a.name.common.toUpperCase() > b.name.common.toUpperCase());
+        const paises = data.sort((a,b) => a.name.common.toUpperCase().localeCompare(b.name.common.toUpperCase()));
         return paises;
     } catch (error) {
         console.log(error);
@@ -26,14 +26,14 @@ const getCountries = async () => {
 getCountries().then((paises) => {
     const template = (country) => {
         return `<div class="country" id="open-${country.name.common}">
-            <img src="${country.flags.png}" alt="${country.name.common}'s flag">
+            <img src="${country.flags.png}" alt="${country.flags.alt}">
             <h2>${country.name.common}</h2>
         </div>`;
     };
     const templateInfo = (country) => {
         return `<div class="country-info" id="${country.name.common}">
             <div>
-                <img src="${country.flags.png}" alt="${country.name.common}'s flag">
+                <img src="${country.flags.png}" alt="${country.flags.alt}">
                 <div class="country-data">
                     <h2>${country.name.common}</h2>
                     <p>Capital: ${country.capital[0]}</p>
